@@ -1,6 +1,6 @@
 ////////////////////////////////////
 //script.js
-//v0.1.1 - v06082025_0850
+//v0.1.2 - v06082025_0910
 ////////////////////////////////////
 
 let userId = null; // ID do usuário após login
@@ -96,9 +96,9 @@ document.getElementById('loginButton').addEventListener('click', async () => {
       document.getElementById('mercadoLivrePage').classList.add('hidden');
       document.getElementById('selecaoLoja').classList.remove('hidden');
       
-      showToast(result.message || 'Login realizado com sucesso!', 'success');
+      showToast(data.message || 'Login realizado com sucesso!', 'success');
     } else {
-      showToast(result.message || 'Chave de acesso inválida.', 'error');
+      showToast(data.message || 'Chave de acesso inválida.', 'error');
     }
   } catch (error) {
     console.error('Erro ao fazer login:', error);
