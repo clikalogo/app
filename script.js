@@ -1,9 +1,11 @@
 ////////////////////////////////////
 //script.js
-//v0.1.0 - v05082025_1545
+//v0.1.0 - v06082025_0850
 ////////////////////////////////////
 
 let userId = null; // ID do usuário após login
+let uId = null; // UUID do usuário após login
+let uKey = null; // Chave de acesso temporária do usuário após login
 let lojaAtual = null; // Armazena a loja selecionada atualmente
 
 // Função para gerenciar o foco entre os campos do PIN code
@@ -86,15 +88,17 @@ document.getElementById('loginButton').addEventListener('click', async () => {
 
     if (data.success) {
       userId = data.userId;
+      uId = data.uId; // UUID do usuário após login
+      uKey = data.uKey; // Chave de acesso temporária do usuário após login
       document.getElementById('loginPopup').classList.add('hidden');
       
       // Mostrar a tela de seleção de loja ao invés da página principal
       document.getElementById('mercadoLivrePage').classList.add('hidden');
       document.getElementById('selecaoLoja').classList.remove('hidden');
       
-      showToast('Login realizado com sucesso!', 'success');
+      showToast(result.message || 'Login realizado com sucesso!', 'success');
     } else {
-      showToast('Chave de acesso inválida.', 'error');
+      showToast(result.message || 'Chave de acesso inválida.', 'error');
     }
   } catch (error) {
     console.error('Erro ao fazer login:', error);
@@ -312,7 +316,8 @@ document.getElementById('gerarLink').addEventListener('click', async () => {
   try {
     // Criar FormData para envio
     const formData = new FormData();
-    formData.append('userId', userId); // ID do usuário
+    formData.append('userId', userId);
+    formData.append('uKey', uKey); // Chave de acesso temporária do usuário após login
     formData.append('produto_url', produtoUrl); // URL do produto
     formData.append('destino', destino); // Destino selecionado
     formData.append('gerar_template', gerarTemplate ? '1' : '0'); // Adicionar flag de template
@@ -424,7 +429,7 @@ function showToast(message, type = 'info') {
   
   // Definir tamanho baseado no tipo
   if (type === 'success') {
-    toast.classList.add('right-4', 'max-w-md');
+    toast.classList.add('right-4', 'max-w-sm');
   } else {
     toast.classList.add('right-4', 'max-w-xs');
   }
@@ -480,7 +485,7 @@ function showToast(message, type = 'info') {
   
   // Ajustar largura máxima baseada no tipo
   if (type === 'success') {
-    toast.classList.add('max-w-md');
+    toast.classList.add('max-w-sm');
   } else {
     toast.classList.add('max-w-xs');
   }
@@ -531,6 +536,7 @@ document.getElementById('gerarLinkShopee').addEventListener('click', async () =>
     // Criar FormData para envio
     const formData = new FormData();
     formData.append('userId', userId); // ID do usuário
+    formData.append('uKey', uKey); // Chave de acesso temporária do usuário após login
     formData.append('produto_url', produtoUrl); // URL do produto
     formData.append('destino', destino); // Destino selecionado
     
@@ -594,6 +600,7 @@ document.getElementById('gerarLinkMagalu').addEventListener('click', async () =>
     // Criar FormData para envio
     const formData = new FormData();
     formData.append('userId', userId); // ID do usuário
+    formData.append('uKey', uKey); // Chave de acesso temporária do usuário após login
     formData.append('produto_url', produtoUrl); // URL do produto
     formData.append('destino', destino); // Destino selecionado
     
